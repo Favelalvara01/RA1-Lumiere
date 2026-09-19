@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario - Lumière Airlines</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="index.html" class="brand"
+        ><span class="plane">✈</span> Lumière
+        <span class="gold">Airlines</span></a
+      >
+      <nav class="mainnav" id="nav-auth-area"></nav>
+    </header>
+
+    <div class="split">
+      <div
+        class="split-media"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1580285198593-af9f402c676a?auto=format&fit=crop&w=1200&q=80&quot;);
+        "
+      >
+        <div class="quote">“Crea tu cuenta y empieza a planear tu viaje.”</div>
+      </div>
+      <div class="split-form">
+        <div class="inner">
+          <h1 class="page-title">Registro de Usuario</h1>
+          <p class="section-sub">
+            Crea tu cuenta para buscar y reservar vuelos.
+          </p>
+          <form id="registerForm">
+            <div class="field">
+              <label for="username">Nombre de usuario</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="field">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="field">
+              <label for="password">Contraseña</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                minlength="4"
+              />
+            </div>
+            <button type="submit" class="btn gold block">Registrar</button>
+          </form>
+          <p id="registerMsg" class="msg hidden"></p>
+          <p style="margin-top: 20px">
+            ¿Ya tienes cuenta?
+            <a
+              href="login.html"
+              style="color: var(--blue-accent); font-weight: 600"
+              >Inicia sesión aquí</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

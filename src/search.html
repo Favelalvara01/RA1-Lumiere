@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Vuelos - Lumière Airlines</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div style="position:relative;">
+        <header class="topbar on-hero">
+            <a href="index.html" class="brand"><span class="plane">✈</span> Lumière <span class="gold">Airlines</span></a>
+            <nav class="mainnav" id="nav-auth-area"></nav>
+        </header>
+
+        <section class="hero small" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=80');">
+            <div class="hero-content">
+                <span class="eyebrow">Servicio de búsqueda</span>
+                <h1>Buscar Vuelos</h1>
+                <p class="lead">Filtra por origen y destino, o deja los campos vacíos para ver todos los vuelos disponibles.</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="search-float">
+        <div class="search-card">
+            <div class="search-tabs">
+                <span class="tab active">Buscar vuelos</span>
+                <a class="tab" href="reservations.html">Mis reservas</a>
+            </div>
+            <form id="searchForm" class="search-form-row">
+                <div class="field">
+                    <label for="origin">Origen</label>
+                    <input type="text" id="origin" name="origin" placeholder="Ej. Ciudad Juarez">
+                </div>
+                <div class="field">
+                    <label for="destination">Destino</label>
+                    <input type="text" id="destination" name="destination" placeholder="Ej. Ciudad de Mexico">
+                </div>
+                <button type="submit" class="btn gold">Buscar</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <div class="card">
+            <h2 class="section-title">Vuelos disponibles</h2>
+            <div id="results"><p class="empty-state">Cargando vuelos…</p></div>
+        </div>
+    </main>
+
+    <footer>Proyecto académico — Arquitectura SOA — Lumière Airlines</footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
