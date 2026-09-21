@@ -88,6 +88,10 @@ header.topbar .brand .plane {
 header.topbar .brand .gold {
   color: var(--gold);
 }
+header.topbar .brand .logo-img {
+  height: 80px;
+  width: auto;
+}
 
 nav.mainnav {
   display: flex;

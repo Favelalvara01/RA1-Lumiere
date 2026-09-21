@@ -32,7 +32,7 @@ services:
       DB_PASS: flight_pass
       DB_NAME: flight_reservation
     ports:
-      - "8080:80"
+      - "8090:80"
     volumes:
       - ./src:/var/www/html
 

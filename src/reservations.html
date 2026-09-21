@@ -1,35 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mis Reservas - Lumière Airlines</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <div style="position:relative;">
-        <header class="topbar on-hero">
-            <a href="index.html" class="brand"><span class="plane">✈</span> Lumière <span class="gold">Airlines</span></a>
-            <nav class="mainnav" id="nav-auth-area"></nav>
-        </header>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div style="position: relative">
+      <header class="topbar on-hero">
+        <a href="index.html" class="brand"
+          ><img
+            src="imagen/Exp33.png"
+            alt="Lumière Airlines"
+            class="logo-img"
+          />
+          Lumière <span class="gold">Airlines</span></a
+        >
+        <nav class="mainnav" id="nav-auth-area"></nav>
+      </header>
 
-        <section class="hero small" style="background-image:url('https://images.unsplash.com/photo-1524592714635-d77511a4834d?auto=format&fit=crop&w=1600&q=80');">
-            <div class="hero-content">
-                <span class="eyebrow">Servicio de gestión de reservas</span>
-                <h1>Mis Reservas</h1>
-                <p class="lead">Consulta el estado de tus reservas y cancélalas si tus planes cambian.</p>
-            </div>
-        </section>
+      <section
+        class="hero small"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1524592714635-d77511a4834d?auto=format&fit=crop&w=1600&q=80&quot;);
+        "
+      >
+        <div class="hero-content">
+          <span class="eyebrow">Servicio de gestión de reservas</span>
+          <h1>Mis Reservas</h1>
+          <p class="lead">
+            Consulta el estado de tus reservas y cancélalas si tus planes
+            cambian.
+          </p>
+        </div>
+      </section>
     </div>
 
     <main>
-        <div class="card">
-            <h2 class="section-title">Tus reservas</h2>
-            <div id="reservations"><p class="empty-state">Cargando reservas…</p></div>
+      <div class="card">
+        <h2 class="section-title">Tus reservas</h2>
+        <div id="reservations">
+          <p class="empty-state">Cargando reservas…</p>
         </div>
+      </div>
     </main>
 
     <footer>Proyecto académico — Arquitectura SOA — Lumière Airlines</footer>
     <script src="js/scripts.js"></script>
-</body>
+  </body>
 </html>
