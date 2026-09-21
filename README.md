@@ -1,149 +1,70 @@
-# SkyReserva — Sistema de Reservas de Vuelos (Arquitectura SOA)
+## 3. Cómo lo corrimos con Docker
 
-Sistema de gestión de reservas de vuelos construido con **arquitectura orientada
-a servicios (SOA)**: cuatro servicios web independientes en PHP, una base de
-datos MySQL y un frontend en HTML/CSS/JavaScript, todo desplegable con Docker
-o en máquinas virtuales / Google Cloud.
-
-Este proyecto parte del código de ejemplo de la materia
-(https://github.com/cristianj87/apwsoa) y fue completado y adaptado para
-cumplir con los requisitos de la Unidad 1.
-
-## 1. Descripción del proyecto y arquitectura
-
-El sistema está formado por 4 servicios web desacoplados que se comunican con
-el frontend mediante peticiones HTTP (fetch) mandando y recibiendo JSON:
-
-| Servicio                  | Archivo                    | Responsabilidad                                        |
-|----------------------------|-----------------------------|---------------------------------------------------------|
-| Autenticación              | `php/auth.php`              | Registro e inicio de sesión de usuarios                |
-| Búsqueda de vuelos         | `php/search_flights.php`    | Consulta de vuelos disponibles por origen/destino        |
-| Reserva de vuelos          | `php/reserve_flight.php`    | Crea una reserva y descuenta el asiento disponible       |
-| Gestión de reservas        | `php/manage_reservations.php` | Lista y cancela las reservas del usuario en sesión      |
-
-Cada servicio se conecta a MySQL de forma independiente a través de
-`php/db.php` (usando `mysqli` con sentencias preparadas para evitar inyección
-SQL), por lo que en un entorno productivo cada uno podría desplegarse incluso
-en contenedores/instancias separadas sin cambiar el contrato de la API.
-
-El frontend (`index.html`, `register.html`, `login.html`, `search.html`,
-`reservations.html`) es estático y usa `js/scripts.js` para invocar los
-servicios vía `fetch`, además de `localStorage` para recordar la sesión del
-usuario en el navegador (el user_id que se manda a los servicios).
-
-### Modelo de datos (MySQL)
-
-- **Users**: `user_id, username, password (hash bcrypt), email, created_at`
-- **Flights**: `flight_id, airline, origin, destination, departure_date, return_date, price, seats_available`
-- **Reservations**: `reservation_id, user_id (FK), flight_id (FK), status, reservation_date`
-
-El script `db/init.sql` crea las tres tablas y precarga varios vuelos de
-ejemplo para poder probar la búsqueda sin capturar datos a mano.
-
-## 2. Estructura del repositorio
-
-```
-.
-├── docker-compose.yml
-├── Dockerfile
-├── db/
-│   └── init.sql
-└── src/                      # Document root que se sirve con Apache
-    ├── index.html
-    ├── register.html
-    ├── login.html
-    ├── search.html
-    ├── reservations.html
-    ├── css/styles.css
-    ├── js/scripts.js
-    └── php/
-        ├── db.php
-        ├── auth.php
-        ├── search_flights.php
-        ├── reserve_flight.php
-        └── manage_reservations.php
-```
-
-## 3. Despliegue con Docker (recomendado para desarrollo/demo)
-
-Requisitos: Docker y Docker Compose instalados.
+Es la forma que más usamos mientras desarrollábamos, porque no tuvimos que instalar nada aparte de Docker.
 
 ```bash
-# 1. Clonar/copiar este proyecto y entrar a la carpeta
-cd sky-reserva
-
-# 2. Levantar los contenedores (Apache+PHP y MySQL)
 docker compose up -d --build
-
-# 3. Verificar que ambos servicios estén arriba
-docker compose ps
+docker compose ps   # confirma que flight_web y flight_db digan "Up"
 ```
 
-- El sitio queda disponible en **http://localhost:8080**
-- MySQL queda expuesto en el puerto 3306 (usuario `flight_user`,
-  contraseña `flight_pass`, base `flight_reservation`) por si se quiere
-  inspeccionar con un cliente como MySQL Workbench o DBeaver.
-- El script `db/init.sql` se ejecuta automáticamente **solo la primera vez**
-  que se crea el volumen de datos (`db_data`). Si se necesita reiniciar la
-  base desde cero: `docker compose down -v && docker compose up -d --build`.
+- El sitio queda en **http://localhost:8080**
+- MySQL queda expuesto en el puerto 3306 (usuario `flight_user`, contraseña `flight_pass`, base `flight_reservation`), por si se quiere revisar con Workbench o DBeaver.
+- Si el puerto 3306 ya lo está usando otro MySQL en tu máquina (nos pasó a nosotros), cámbialo en `docker-compose.yml` a `"3307:3306"` — no afecta la comunicación interna entre contenedores.
+- `db/init.sql` solo se ejecuta la primera vez que se crea el volumen. Para reiniciar todo desde cero: `docker compose down -v && docker compose up -d --build`.
 
-Para ver logs en caso de error:
+Para ver qué está pasando si algo no prende:
+
 ```bash
 docker compose logs -f web
 docker compose logs -f db
 ```
 
-## 4. Despliegue en máquina virtual (sin Docker)
+## 4. Cómo lo desplegamos en una máquina virtual (Ubuntu Server, sin Docker)
 
-1. Instalar Apache, PHP 8+ con la extensión `mysqli`, y MySQL 8.
-2. Copiar el contenido de `src/` a `/var/www/html`.
-3. Crear la base de datos y cargar el esquema:
-   ```bash
-   mysql -u root -p -e "CREATE DATABASE flight_reservation;"
-   mysql -u root -p flight_reservation < db/init.sql
-   mysql -u root -p -e "CREATE USER 'flight_user'@'%' IDENTIFIED BY 'flight_pass'; GRANT ALL ON flight_reservation.* TO 'flight_user'@'%'; FLUSH PRIVILEGES;"
-   ```
-4. Definir las variables de entorno que usa `php/db.php` (o editar
-   directamente los valores por defecto en ese archivo):
-   `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`.
-5. Reiniciar Apache y abrir la IP/dominio de la VM en el navegador.
+Además de Docker, también lo dejamos corriendo de forma nativa en una VM con **Ubuntu Server 24.04 LTS** (la armamos en VirtualBox), instalando Apache, PHP y MySQL directo sobre el sistema operativo, para tener el proyecto funcionando en un servidor real y no solo en contenedores.
 
-## 5. Despliegue en Google Cloud
+```bash
+# Instalar lo necesario
+sudo apt install -y apache2 php libapache2-mod-php php-mysql mysql-server git
 
-1. **Google Cloud SQL (MySQL)**
-   - Crear una instancia de Cloud SQL para MySQL 8.
-   - Crear la base `flight_reservation` y ejecutar `db/init.sql` (puede
-     importarse desde Cloud Shell o con `mysql` apuntando a la IP pública/
-     conexión de Cloud SQL Proxy).
-   - Crear el usuario de aplicación y anotar host, usuario y contraseña.
-2. **Google Compute Engine** (o App Engine flexible)
-   - Crear una VM con Apache + PHP (o usar la imagen de contenedor de este
-     proyecto: `docker compose up -d --build` funciona igual dentro de la VM).
-   - Configurar las variables de entorno `DB_HOST` (IP de Cloud SQL o el
-     socket de conexión), `DB_USER`, `DB_PASS`, `DB_NAME`.
-   - Abrir el puerto 80/8080 en el firewall de la VM.
-3. **Google Cloud Storage** (opcional)
-   - Puede usarse para servir los archivos estáticos (`css/`, `js/`) si se
-     desea separar el frontend del backend PHP.
+# Crear la base de datos y el usuario
+sudo mysql -e "CREATE DATABASE flight_reservation;
+CREATE USER 'flight_user'@'localhost' IDENTIFIED BY 'flight_pass';
+GRANT ALL PRIVILEGES ON flight_reservation.* TO 'flight_user'@'localhost';
+FLUSH PRIVILEGES;"
 
-## 6. Instrucciones de uso
+# Traer el proyecto y cargar el esquema
+git clone https://github.com/Favelalvara01/RA1-Lumiere.git
+sudo mysql flight_reservation < RA1-Lumiere/db/init.sql
 
-1. Entrar a `index.html` y dar clic en **"Crear una cuenta"**.
-2. Registrarse con usuario, correo y contraseña (`register.html` →
-   `auth.php`, acción `register`).
-3. Iniciar sesión (`login.html` → `auth.php`, acción `login`). La sesión se
-   guarda en el navegador.
-4. En **Buscar vuelos** (`search.html`), filtrar por origen/destino (o dejar
-   vacío para ver todos) y presionar **Reservar** en el vuelo deseado
-   (`search_flights.php` y `reserve_flight.php`).
-5. En **Mis reservas** (`reservations.html`) se listan las reservas del
-   usuario y se pueden cancelar (`manage_reservations.php`, acciones `list`
-   y `cancel`).
+# Copiar el sitio a donde Apache lo sirve
+sudo cp -r RA1-Lumiere/src/* /var/www/html/lumiere/
+```
 
-## 7. Notas de seguridad implementadas
+**Importante:** `php/db.php` por defecto busca la base de datos en un host llamado `db` (así está pensado para Docker). En la VM hay que cambiar esa línea a `localhost`, o definirlo como variable de entorno de Apache para no tener que tocar el código cada vez que se actualiza:
 
-- Contraseñas almacenadas con `password_hash` (bcrypt), nunca en texto plano.
-- Todas las consultas SQL usan sentencias preparadas (`mysqli::prepare`) para
-  evitar inyección SQL.
-- La reserva de vuelos valida existencia de usuario/vuelo y disponibilidad de
-  asientos dentro de una transacción antes de confirmar.
+```bash
+sudo nano /etc/apache2/envvars
+# agregar al final: export DB_HOST=localhost
+sudo systemctl restart apache2
+```
+
+Con la VM en modo de red "Adaptador puente" (para que tenga su propia IP en la red local), el sitio queda disponible en `http://<ip-de-la-vm>/lumiere/`.
+
+## 5. Sobre Google Cloud
+
+Documentamos y dejamos listos los pasos para desplegarlo también en Google Cloud (Cloud SQL + Compute Engine), pero al final nos quedamos con Docker y la VM de Ubuntu Server como nuestras dos formas de despliegue para esta entrega.
+
+## 6. Cómo usarlo
+
+1. Entra a `index.html` y dale a **"Crear una cuenta"**.
+2. Regístrate con usuario, correo y contraseña.
+3. Inicia sesión — la sesión se guarda en el navegador.
+4. En **Buscar vuelos**, filtra por origen/destino (o déjalo vacío para ver todos) y dale **Reservar** al vuelo que quieras.
+5. En **Mis reservas** puedes ver y cancelar tus reservas.
+
+## 7. Seguridad
+
+- Las contraseñas se guardan cifradas con `password_hash` (bcrypt), nunca en texto plano.
+- Todas las consultas usan sentencias preparadas de `mysqli` para evitar inyección SQL.
+- Antes de confirmar una reserva se valida que el usuario y el vuelo existan y que haya asientos disponibles, todo dentro de una transacción.

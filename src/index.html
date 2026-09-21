@@ -1,82 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lumière Airlines — Sistema de Reservas de Vuelos</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <div style="position:relative;">
-        <header class="topbar on-hero">
-            <a href="index.html" class="brand"><span class="plane">✈</span> Lumière <span class="gold">Airlines</span></a>
-            <nav class="mainnav" id="nav-auth-area"></nav>
-        </header>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div style="position: relative">
+      <header class="topbar on-hero">
+        <a href="index.html" class="brand"
+          ><span class="plane">✈</span> Lumière
+          <span class="gold">Airlines</span></a
+        >
+        <nav class="mainnav" id="nav-auth-area"></nav>
+      </header>
 
-        <section class="hero" style="background-image:url('https://images.unsplash.com/photo-1721592873149-9823d9dc6b40?auto=format&fit=crop&w=1920&q=80');">
-            <div class="hero-content">
-                <span class="eyebrow">Expedición aérea N.º 33</span>
-                <h1>Tu viaje comienza donde termina el lienzo</h1>
-                <p class="lead">Cada boleto es un pincelazo hacia un nuevo horizonte. Descubre vuelos hacia los confines del Continente.</p>
-            </div>
-        </section>
+      <section
+        class="hero"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1721592873149-9823d9dc6b40?auto=format&fit=crop&w=1920&q=80&quot;);
+        "
+      >
+        <div class="hero-content">
+          <span class="eyebrow">Expedición aérea N.º 33</span>
+          <h1>Tu viaje comienza donde termina el lienzo</h1>
+          <p class="lead">
+            Cada boleto es un pincelazo hacia un nuevo horizonte. Descubre
+            vuelos hacia los confines del Continente.
+          </p>
+        </div>
+      </section>
     </div>
 
     <div class="search-float">
-        <div class="search-card">
-            <div class="search-tabs">
-                <span class="tab active">Buscar vuelos</span>
-                <a class="tab" href="reservations.html">Mis reservas</a>
-            </div>
-            <form id="homeQuickSearch" class="search-form-row">
-                <div class="field">
-                    <label for="q-origin">Origen</label>
-                    <input type="text" id="q-origin" name="origin" placeholder="Ej. Ciudad Juarez">
-                </div>
-                <div class="field">
-                    <label for="q-destination">Destino</label>
-                    <input type="text" id="q-destination" name="destination" placeholder="Ej. Ciudad de Mexico">
-                </div>
-                <button type="submit" class="btn gold">Buscar vuelos</button>
-            </form>
+      <div class="search-card">
+        <div class="search-tabs">
+          <span class="tab active">Buscar vuelos</span>
+          <a class="tab" href="reservations.html">Mis reservas</a>
         </div>
+        <form id="homeQuickSearch" class="search-form-row">
+          <div class="field">
+            <label for="q-origin">Origen</label>
+            <input
+              type="text"
+              id="q-origin"
+              name="origin"
+              placeholder="Ej. Ciudad Juarez"
+            />
+          </div>
+          <div class="field">
+            <label for="q-destination">Destino</label>
+            <input
+              type="text"
+              id="q-destination"
+              name="destination"
+              placeholder="Ej. Ciudad de Mexico"
+            />
+          </div>
+          <button type="submit" class="btn gold">Buscar vuelos</button>
+        </form>
+      </div>
     </div>
 
     <main>
-        <div class="card">
-            <h2 class="section-title">Cuatro servicios, un solo viaje</h2>
-            <p class="section-sub">Lumière Airlines está construido con Arquitectura Orientada a Servicios (SOA): cada función vive en su propio servicio web PHP.</p>
-            <div class="feature-grid">
-                <div class="feature">
-                    <div class="icon">🔐</div>
-                    <h3>Autenticación</h3>
-                    <p>Registro e inicio de sesión de usuarios.</p>
-                </div>
-                <div class="feature">
-                    <div class="icon">🔎</div>
-                    <h3>Búsqueda</h3>
-                    <p>Consulta de vuelos disponibles por origen y destino.</p>
-                </div>
-                <div class="feature">
-                    <div class="icon">🧾</div>
-                    <h3>Reserva</h3>
-                    <p>Apartado de tu lugar en el vuelo elegido.</p>
-                </div>
-                <div class="feature">
-                    <div class="icon">📋</div>
-                    <h3>Gestión</h3>
-                    <p>Consulta y cancelación de tus reservas.</p>
-                </div>
+      <div class="card">
+        <h2 class="section-title">Cuatro servicios, un solo viaje</h2>
+        <p class="section-sub">
+          Lumière Airlines está construido con Arquitectura Orientada a
+          Servicios (SOA): cada función vive en su propio servicio web PHP.
+        </p>
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="icon">
+              <img src="imagen/security.png" alt="Autenticación" />
             </div>
-            <p style="margin-top:24px;">
-                <a class="btn gold" href="register.html">Crear una cuenta</a>
-                &nbsp;
-                <a class="btn secondary" href="login.html">Ya tengo cuenta</a>
-            </p>
+            <h3>Autenticación</h3>
+            <p>Registro e inicio de sesión de usuarios.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">
+              <img src="imagen/magnifier.png" alt="Búsqueda" />
+            </div>
+            <h3>Búsqueda</h3>
+            <p>Consulta de vuelos disponibles por origen y destino.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">
+              <img src="imagen/reservation.png" alt="Reserva" />
+            </div>
+            <h3>Reserva</h3>
+            <p>Apartado de tu lugar en el vuelo elegido.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">
+              <img src="imagen/inventory.png" alt="Gestión" />
+            </div>
+            <h3>Gestión</h3>
+            <p>Consulta y cancelación de tus reservas.</p>
+          </div>
         </div>
+        <p style="margin-top: 24px">
+          <a class="btn gold" href="register.html">Crear una cuenta</a>
+          &nbsp;
+          <a class="btn secondary" href="login.html">Ya tengo cuenta</a>
+        </p>
+      </div>
     </main>
 
-    <footer>Proyecto académico — Arquitectura SOA — Lumière Airlines</footer>
+    <footer>Expedition 33 — Lumière Airlines</footer>
     <script src="js/scripts.js"></script>
-</body>
+  </body>
 </html>
